@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generate Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #4361ee;
+            --primary-light: #e0e5ff;
             --secondary-color: #3f37c9;
             --accent-color: #4895ef;
             --light-color: #f8f9fa;
             --dark-color: #212529;
             --success-color: #4bb543;
             --error-color: #ff3333;
+            --gray-color: #6c757d;
         }
         
         * {
@@ -23,29 +26,46 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         .login-container {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             width: 400px;
             padding: 40px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
         }
         
         .logo {
             width: 80px;
             height: 80px;
             margin: 0 auto 20px;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -53,77 +73,128 @@
             color: white;
             font-size: 28px;
             font-weight: bold;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.1) rotate(10deg);
         }
         
         .company-name {
             font-size: 24px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 30px;
             color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .company-name::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 3px;
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
         }
         
         .input-group {
-            margin-bottom: 20px;
-            text-align: left;
+            flex: 1;
             position: relative;
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark-color);
-        }
-        
-        input {
+        .input-group input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 20px;
             border: 2px solid #e9ecef;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s;
+            background-color: var(--light-color);
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
-        input:focus {
+        .input-group input:focus {
             border-color: var(--accent-color);
             outline: none;
             box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+            background-color: white;
         }
         
         .btn {
-            display: inline-block;
-            padding: 12px 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn-primary {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            width: 30%;
-            margin-left: auto;
-            display: block;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
         
         .btn-primary:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(1px);
         }
         
         .btn-secondary {
-            background-color: #e9ecef;
-            color: var(--dark-color);
-            width: 60%;
+            background-color: white;
+            color: var(--primary-color);
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
         
         .btn-secondary:hover {
-            background-color: #dee2e6;
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn i {
+            margin-right: 8px;
         }
         
         .btn-loading .btn-text {
@@ -134,43 +205,39 @@
         .btn-loading::after {
             content: "";
             position: absolute;
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             margin: auto;
-            border: 4px solid transparent;
-            border-top-color: var(--primary-color);
+            border: 3px solid transparent;
+            border-top-color: white;
             border-radius: 50%;
-            animation: button-loading-spinner 1s ease infinite;
+            animation: button-loading-spinner 0.8s linear infinite;
         }
         
         @keyframes button-loading-spinner {
-            from {
-                transform: rotate(0turn);
-            }
-            to {
-                transform: rotate(1turn);
-            }
+            from { transform: rotate(0turn); }
+            to { transform: rotate(1turn); }
         }
         
-        .copy-pin {
-            position: absolute;
-            right: 10px;
-            top: 38px;
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            cursor: pointer;
+        .timer {
+            margin-top: 25px;
             font-size: 14px;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .copy-pin:hover {
-            text-decoration: underline;
+        .timer i {
+            margin-right: 8px;
+            color: var(--primary-color);
         }
         
+        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -178,24 +245,36 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .modal-content {
             background-color: white;
             padding: 30px;
-            border-radius: 12px;
+            border-radius: 15px;
             max-width: 400px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            animation: modalOpen 0.3s forwards;
+        }
+        
+        @keyframes modalOpen {
+            to { transform: scale(1); }
         }
         
         .modal-icon {
-            font-size: 48px;
+            font-size: 60px;
             margin-bottom: 20px;
         }
         
@@ -209,53 +288,82 @@
         
         .modal-message {
             font-size: 18px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
         
         .modal-btn {
-            padding: 10px 20px;
-            background-color: var(--primary-color);
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            transition: all 0.3s;
         }
         
-        .timer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #6c757d;
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
         
-        .pin-display {
-            font-family: monospace;
-            background-color: #f8f9fa;
-            padding: 5px;
-            border-radius: 4px;
-            margin: 5px 0;
-            display: inline-block;
+        /* Floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .login-container {
+                width: 90%;
+                padding: 30px 20px;
+            }
+            
+            .input-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn-primary {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">PG</div>
+    <div class="login-container floating">
+        <div class="logo"><i class="fas fa-lock"></i></div>
         <h1 class="company-name">Password Generate</h1>
         
-        <div class="input-group">
-            <button id="getPinBtn" class="btn btn-secondary">
-                <span class="btn-text">Get PIN Code here</span>
-            </button>
+        <div class="input-row">
+            <div class="input-group">
+                <button id="getPinBtn" class="btn btn-secondary">
+                    <i class="fas fa-key"></i>
+                    <span class="btn-text">Get PIN</span>
+                </button>
+            </div>
+            
+            <div class="input-group">
+                <input type="text" id="pinCode" placeholder="Enter 6-digit PIN">
+            </div>
         </div>
         
-        <div class="input-group">
-            <input type="text" id="pinCode" placeholder="Enter 6-digit PIN">
+        <button id="accessBtn" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Access</span>
+        </button>
+        
+        <div class="timer" id="timer">
+            <i class="fas fa-clock"></i>
+            <span>Session will expire in 10:00</span>
         </div>
-        
-        <button id="accessBtn" class="btn btn-primary">Access</button>
-        
-        <div class="timer" id="timer">Session will expire in 10:00</div>
     </div>
     
     <!-- Modal for messages -->
@@ -278,7 +386,7 @@
         const getPinBtn = document.getElementById('getPinBtn');
         const pinCodeInput = document.getElementById('pinCode');
         const accessBtn = document.getElementById('accessBtn');
-        const timerElement = document.getElementById('timer');
+        const timerElement = document.getElementById('timer').querySelector('span');
         const messageModal = document.getElementById('messageModal');
         const modalIcon = document.getElementById('modalIcon');
         const modalMessage = document.getElementById('modalMessage');
@@ -292,7 +400,6 @@
         // Functions
         function generatePin() {
             const pin = Math.floor(100000 + Math.random() * 900000).toString();
-            // console.log('Generated PIN:', pin);
             return pin;
         }
         
@@ -389,7 +496,7 @@
         }
 
         function showModal(isSuccess, message) {
-            modalIcon.innerHTML = isSuccess ? '✓' : '✗';
+            modalIcon.innerHTML = isSuccess ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
             modalIcon.className = `modal-icon ${isSuccess ? 'success' : 'error'}`;
             modalMessage.textContent = message;
             messageModal.style.display = 'flex';
@@ -398,8 +505,8 @@
         function resetInactivityTimer() {
             clearTimeout(inactivityTimer);
             inactivityTimer = setTimeout(() => {
-                generatedPin = ''; // Clear the PIN on timeout
-                window.location.href = 'logout.html'; // Redirect to logout page
+                generatedPin = '';
+                window.location.href = 'index.html';
             }, sessionDuration * 1000);
         }
         
@@ -419,26 +526,15 @@
             }, 1000);
         }
         
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showModal(true, 'PIN copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy PIN: ', err);
-                showModal(false, 'Failed to copy PIN. Please try again.');
-            });
-        }
-        
         function setupEventListeners() {
             // Get PIN button click
             getPinBtn.addEventListener('click', async () => {
-                // Show loading state
                 getPinBtn.classList.add('btn-loading');
                 getPinBtn.disabled = true;
                 
                 generatedPin = generatePin();
                 const sentSuccessfully = await sendPinToTelegram(generatedPin);
                 
-                // Hide loading state
                 getPinBtn.classList.remove('btn-loading');
                 getPinBtn.disabled = false;
                 
@@ -465,9 +561,7 @@
                 }
                 
                 if (enteredPin === generatedPin) {
-                    // Store login status in sessionStorage
                     sessionStorage.setItem('loggedIn', 'true');
-                    // Redirect to password generator page
                     window.location.href = 'passwordGenerate.html';
                 } else {
                     showModal(false, 'Invalid PIN code. Please try again.');
@@ -481,7 +575,7 @@
                 messageModal.style.display = 'none';
             });
             
-            // Track user activity to reset inactivity timer
+            // Track user activity
             document.addEventListener('mousemove', resetInactivityTimer);
             document.addEventListener('keypress', resetInactivityTimer);
             document.addEventListener('click', resetInactivityTimer);
